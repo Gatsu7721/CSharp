@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Programa
 {
@@ -94,27 +94,55 @@ namespace Programa
                     }
                     break;
                 case 3:
+                    
                     Console.WriteLine("1. Contar las veces de una palabra. ");
+                    Console.WriteLine("2. Contar caracteres de una palabra. ");
 
-                    Console.Write("Ingresa el texto: ");
-                    string contador = Console.ReadLine();
-
-                    Console.Write("Que palabra deseas encontrar: ");
-                    string palabraBuscada = Console.ReadLine();
-
-                    // Variable para almacenar el conteo
-                    int conteo = 0;
-
-                    // Recorre el texto en busca de la palabra o letra
-                    for (int i = 0; i < contador.Length - palabraBuscada.Length + 1; i++)
+                    Console.Write("elige una opcion: ");
+                    int utilidad=int.Parse(Console.ReadLine());
+                    switch (utilidad)
                     {
-                        if (contador.Substring(i, palabraBuscada.Length).Equals(palabraBuscada, StringComparison.OrdinalIgnoreCase))
-                        {
-                            conteo++;
-                        }
-                    }
+                        case 1:
+                            Console.Write("Ingresa el texto: ");
+                            string contador = Console.ReadLine();
 
-                    Console.WriteLine($"La palabra '{palabraBuscada}' aparece {conteo} veces en el texto.");
+                            Console.Write("Que palabra deseas encontrar: ");
+                            string palabraBuscada = Console.ReadLine();
+                      
+                            int conteo = 0;
+
+                            for (int j = 0; j < contador.Length - palabraBuscada.Length + 1; j++)
+                            {
+                                if (contador.Substring(j, palabraBuscada.Length).Equals(palabraBuscada, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    conteo++;
+                                }
+                            }
+
+                            Console.WriteLine($"La palabra '{palabraBuscada}' aparece {conteo} veces en el texto.");
+                            break;
+                        case 2:
+                            Console.Write("Ingresa un texto: ");
+                            string texto4 = Console.ReadLine();
+
+                            int longitud = 0; 
+
+                            int i = 0;
+
+                            while (i < texto4.Length)
+                            {
+                                if (texto4[i] != ' ')
+                                {
+                                    longitud++; 
+                                }
+
+                                i++;
+                            }
+
+                            Console.WriteLine($"La longitud del texto sin contar espacios es: {longitud}");
+                            break;
+                    }
+                    
                     break;
             }
 
