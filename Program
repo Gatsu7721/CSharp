@@ -1,0 +1,20 @@
+// See https://aka.ms/new-console-template for more information
+
+
+LinqQueries queries = new LinqQueries();
+
+
+
+void ImprimeValores(IEnumerable<Book> listaDeLibros)
+{
+    Console.WriteLine("{0, -70} {1, 15} {2, 15}", "Titulo", "N. Paginas", "Fecha Publicacion");
+    foreach(var item in listaDeLibros)
+    {
+        Console.WriteLine(
+            "{0, -70} {1, 15} {2, 15}",
+            item.Title,
+            item.PageCount,
+            item.PublishedDate
+            );
+    }
+}
