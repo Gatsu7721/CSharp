@@ -1,0 +1,32 @@
+CREATE FUNCTION ObtenerNombresYApellidosPorID
+(
+    @PersonaID INT
+)
+RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @Resultado NVARCHAR(MAX);
+
+    -- Inicializar la variable de resultado
+    SET @Resultado = '';
+
+    -- Declarar variables para nombres y apellidos
+    DECLARE @Nombre NVARCHAR(100);
+    DECLARE @ApellidoPaterno NVARCHAR(100);
+    DECLARE @ApellidoMaterno NVARCHAR(100);
+
+    -- Obtener los nombres y apellidos de la persona con el ID especificado
+    SELECT @Nombre = Nombre, @ApellidoPaterno = ApellidoPaterno, @ApellidoMaterno = ApellidoMaterno
+    FROM Persona
+    WHERE PersonaID = @PersonaID;
+
+    -- Concatenar los nombres y apellidos en la variable de resultado
+    IF @Nombre IS NOT NULL
+    BEGIN
+        SET @Resultado = @Nombre + ' ' + @ApellidoPaterno + ' ' + @ApellidoMaterno;
+    END;
+
+    RETURN @Resultado;
+END;
+
+SELECT dbo.ObtenerNombresYApellidosPorID(3) AS NombresYApellidos;
