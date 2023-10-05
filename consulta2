@@ -1,0 +1,35 @@
+CREATE FUNCTION CalcularEdadPersona
+(
+    @PersonaID INT
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @Edad INT;
+    DECLARE @FechaNacimiento DATE;
+
+    -- Obtener la fecha de nacimiento de la persona
+    SELECT @FechaNacimiento = FechaNacimiento
+    FROM Persona
+    WHERE PersonaID = @PersonaID;
+
+    -- Calcular la edad en base a la fecha de nacimiento
+    SET @Edad = DATEDIFF(YEAR, @FechaNacimiento, GETDATE());
+
+    RETURN @Edad;
+END;
+CREATE FUNCTION ObtenerEdadNombreApellidoPersona
+(
+    @PersonaID INT
+)
+RETURNS TABLE
+AS
+RETURN (
+    SELECT 
+        DATEDIFF(YEAR, P.FechaNacimiento, GETDATE()) AS Edad,
+        P.Nombre + ' ' + P.ApellidoPaterno + ' ' + P.ApellidoMaterno AS NombreApellido
+    FROM Persona AS P
+    WHERE P.PersonaID = @PersonaID
+);
+SELECT Edad, NombreApellido
+FROM dbo.ObtenerEdadNombreApellidoPersona(3);
