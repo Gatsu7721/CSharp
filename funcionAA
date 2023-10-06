@@ -1,0 +1,56 @@
+CREATE FUNCTION Func1
+(
+    @ValorA DECIMAL(18, 2),
+    @ValorB DECIMAL(18, 2),
+    @Tipo INT,
+    @PersonaID INT = 1
+)
+RETURNS NVARCHAR(100)
+AS
+BEGIN
+    DECLARE @Resultado NVARCHAR(100);
+
+    IF @Tipo = 1 -- Suma
+    BEGIN
+        SET @Resultado = CAST(@ValorA + @ValorB AS NVARCHAR(100));
+    END
+    ELSE IF @Tipo = 2 -- Resta
+    BEGIN
+        SET @Resultado = CAST(@ValorA - @ValorB AS NVARCHAR(100));
+    END
+    ELSE IF @Tipo = 3 -- Multiplicación
+    BEGIN
+        SET @Resultado = CAST(@ValorA * @ValorB AS NVARCHAR(100));
+    END
+    ELSE IF @Tipo = 4 -- División
+    BEGIN
+        IF @ValorB = 0
+        BEGIN
+            SET @Resultado = NULL;
+        END
+        ELSE
+        BEGIN
+            SET @Resultado = CAST(@ValorA / @ValorB AS NVARCHAR(100));
+        END
+    END
+    ELSE IF @Tipo = 5 
+    BEGIN
+        DECLARE @Nombre NVARCHAR(255);
+		DECLARE @Edad NVARCHAR(255);
+
+		SET @Nombre = dbo.ObtenerNombreCU(@PersonaID);
+
+		SET @Edad = dbo.ObtenerEdadCU(@PersonaID);
+
+		SET @Resultado = CONCAT(@Nombre, ', Edad: ', @Edad);
+    END
+    ELSE
+    BEGIN
+        SET @Resultado = NULL;
+    END;
+
+    RETURN @Resultado;
+END;
+
+SELECT dbo.FunctionA12(2,3,5,5) AS resultado;
+SELECT * From Persona;
