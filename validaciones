@@ -1,0 +1,48 @@
+ALTER TABLE Persona
+ADD NumeroDoc NVARCHAR(10);
+
+SELECT * FROM Persona;
+
+CREATE PROCEDURE CrearPersona(
+ @Nombre NVARCHAR(100),
+ @ApellidoPaterno NVARCHAR(100),
+ @ApellidoMaterno NVARCHAR(100),
+ @FechaNacimiento DATE, --validar 
+ @Email NVARCHAR(255), --validar
+ @NumeroDoc NVARCHAR(10) --validar
+)
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Validación de longitud mínima para Nombre, ApellidoPaterno y ApellidoMaterno
+        IF LEN(@Nombre) < 3 OR LEN(@ApellidoPaterno) < 3 OR LEN(@ApellidoMaterno) < 3
+        BEGIN
+            THROW 51001, 'Nombre, Apellido Paterno y Apellido Materno deben tener al menos 3 caracteres.', 1;
+        END;
+
+        -- Validación de formato de correo electrónico
+        IF CHARINDEX('@', @Email) = 0 OR CHARINDEX('.', @Email, CHARINDEX('@', @Email)) = 0
+           OR RIGHT(@Email, 10) != '@gmail.com'
+        BEGIN
+            THROW 51002, 'El correo electrónico debe tener el formato correcto (nombre.apellido@gmail.com).', 1;
+        END;
+
+        -- Realizar la inserción o cualquier otra lógica que desees aquí
+
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error capturado: ' + ERROR_MESSAGE();
+        ROLLBACK;
+    END CATCH;
+END;
+EXEC CrearPersona
+    @Nombre = 'Adan',
+    @ApellidoPaterno = 'Vizcarra',
+    @ApellidoMaterno = 'Choque',
+    @FechaNacimiento = '2004-10-17',
+    @Email = 'adan.vizcarra@gmail.com',
+    @NumeroDoc = '77210245';
+
