@@ -30,12 +30,13 @@ BEGIN
 				(CHARINDEX('@', @Email) > 0) AND
 				(
 					(
-						(CHARINDEX(@Nombre + '.' + @ApellidoPaterno, @Email) > 0) OR
-						(CHARINDEX( @ApellidoMaterno + '@gmail.com', @Email) > 0)
+						(CHARINDEX(@Nombre + '.' + @ApellidoPaterno + '@gmail.com', @Email) > 0) OR
+						(CHARINDEX(@ApellidoMaterno + '@gmail.com', @Email) > 0)
 					)
 				)
 			)
 		)
+
 		BEGIN
 			THROW 51002, 'El correo electrónico debe tener el formato correcto (nombre.apellido@gmail.com o apellido@gmail.com).', 1;
 		END;
